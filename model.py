@@ -56,8 +56,17 @@ def column_full(board, column):
         return True
     return False
 
-# Step 5 - valid_moves (not yet solved)
-# TODO: implement
+# Step 5 - valid_moves
+def valid_moves(board):
+    # TODO: return a list of column indices that still have at least one empty row
+    # pass
+    valid_cols=[]
+    for c in range(len(board[0])):
+        row=column_top_row(board,c)
+        if row !=-1:
+            valid_cols.append(c)
+    
+    return valid_cols
 
 # Step 6 - four_in_a_row_horizontal (not yet solved)
 # TODO: implement
