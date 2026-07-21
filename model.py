@@ -31,8 +31,18 @@ def column_top_row(board, column):
     
     return maxi
 
-# Step 3 - drop_piece (not yet solved)
-# TODO: implement
+# Step 3 - drop_piece
+def drop_piece(board, column, player):
+    # TODO: place `player` in the lowest empty row of `column` and return the new board
+    # pass
+    landing_row=column_top_row(board,column)
+    if landing_row == -1:
+        raise ValueError("Column is full")
+    
+    new_board=board.copy()
+    new_board[landing_row][column]=player
+
+    return new_board
 
 # Step 4 - column_full (not yet solved)
 # TODO: implement
