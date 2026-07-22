@@ -595,7 +595,7 @@ def select_leaf(root, c_puct):
     # pass
     
     node=root
-    while(node['is_expanded']):
+    while node.get("is_expanded", False):
         legal_actions=node['children'].keys()
         action,best_child=select_best_child(node, legal_actions, c_puct=c_puct)
         node=best_child
@@ -664,13 +664,16 @@ def backup_value(leaf, value):
 def run_one_simulation(root, net, c_puct):
     # TODO: run one MCTS simulation: select a leaf, evaluate, expand if non-terminal, backup.
     # pass
+    if "is_expanded" not in root:
+      root["is_expanded"] = False
+
     leaf = select_leaf(root, c_puct)
 
-    done,winner = is_terminal(root['board'])
+    done,winner = is_terminal(leaf['board'])
 
     if not done:
        priors,value = evaluate_with_network(net, leaf['board'], leaf['to_play'])
-       expand_node(node, priors)
+       expand_node(leaf, priors)
     else:
         if winner == 0:
             value = 0.0          # draw
