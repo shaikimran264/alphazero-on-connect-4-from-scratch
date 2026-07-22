@@ -307,15 +307,20 @@ def board_is_full(board):
 def is_terminal(board):
     # TODO: return (done, winner) using check_winner and board_is_full.
     # pass
-    if board_is_full(board):
-        winner=check_winner(board)
-        return (True,winner)
-    
+
+    done=False
     winner=check_winner(board)
+
     if winner!=0:
         return (True,winner)
-        
-    return (False,0)
+
+
+    if board_is_full(board):
+        done=True
+        winner=check_winner(board)
+        return (done,winner)
+    
+    return (done,winner)
 
 # Step 13 - other_player
 def other_player(player):
@@ -325,8 +330,15 @@ def other_player(player):
         return 2
     return 1
 
-# Step 14 - step_env (not yet solved)
-# TODO: implement
+# Step 14 - step_env
+def step_env(board, column, player):
+    # TODO: drop piece for player, then return (new_board, done, winner, next_player).
+    # pass
+    new_board=drop_piece(board,column,player)
+    done,winner=is_terminal(board)
+    next_player=other_player(player)
+
+    return (new_board,done,winner,next_player)
 
 # Step 15 - encode_board (not yet solved)
 # TODO: implement
