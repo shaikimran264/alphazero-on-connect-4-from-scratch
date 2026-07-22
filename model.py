@@ -698,8 +698,47 @@ def run_mcts(state, to_play, net, num_simulations, c_puct):
     
     return root
 
-# Step 37 - visit_count_policy (not yet solved)
-# TODO: implement
+# Step 37 - visit_count_policy
+def visit_count_policy(root, temperature=1.0):
+    # TODO: convert root child visit counts into a length-7 probability vector over columns
+    # pass
+    acts=root['children'].keys()
+    total=0
+    probs=[0.0]*7
+    
+    # No children -> uniform distribution
+    if len(acts)==0:
+        return [1/7]*7
+
+    if temperature == 0:
+        maxi=float('-inf')
+        best_act=None
+        for act in acts:
+            count=root['children'][act]['visit_count']
+            if count > maxi:
+                best_act=act
+                maxi=count
+        
+        probs[best_act]=1.0
+        return probs
+
+
+    for act in acts:
+        total+=(root['children'][act]['visit_count'])**(1/temperature)
+    
+    if total == 0:
+        legal_actions=list(root['children'].keys())
+        prob=1/len(legal_actions)
+
+        for act in legal_actions:
+            probs[i]=prob
+        
+        return probs
+    
+    for act in acts:
+        probs[act]=(((root['children'][act]['visit_count'])**(1/temperature)) / total)
+    
+    return probs
 
 # Step 38 - mcts_choose_action (not yet solved)
 # TODO: implement
