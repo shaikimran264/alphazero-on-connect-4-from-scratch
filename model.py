@@ -568,7 +568,7 @@ def ucb_score(parent, child, c_puct=1.5):
     # pass
     q_value=node_q_value(child)
 
-    score=q_value + c_puct * child['prior'] * math.sqrt(parent['visit_count']) / (1 + child['visit_count'])
+    score=q_value + c_puct * child['prior'] * (math.sqrt(parent['visit_count']) / (1 + child['visit_count']))
 
     return score
 
