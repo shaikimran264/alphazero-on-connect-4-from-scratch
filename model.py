@@ -24,12 +24,11 @@ def column_top_row(board, column):
     # if board[0][column]!=0:
     #     return -1
         
-    maxi=-1
-    for i in range(len(board)):
+    for i in range(len(board)-1,-1,-1):
         if(board[i][column]==0):
-            maxi=max(maxi,i)
+            return i
     
-    return maxi
+    return -1
 
 # Step 3 - drop_piece
 def drop_piece(board, column, player):
@@ -291,8 +290,16 @@ def check_winner(board):
     
     return 0
 
-# Step 11 - board_is_full (not yet solved)
-# TODO: implement
+# Step 11 - board_is_full
+def board_is_full(board):
+    # TODO: return True when no column has an empty slot left
+    # pass
+    valid=valid_moves(board)
+
+    if len(valid) ==0:
+        return True
+    
+    return False
 
 # Step 12 - is_terminal (not yet solved)
 # TODO: implement
