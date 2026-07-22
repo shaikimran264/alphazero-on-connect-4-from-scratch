@@ -403,8 +403,20 @@ def init_policy_head(hidden_channels=16, num_columns=7):
 
     return nn.Sequential(conv,flattened,output)
 
-# Step 19 - init_value_head (not yet solved)
-# TODO: implement
+# Step 19 - init_value_head
+import torch
+import torch.nn as nn
+
+def init_value_head(hidden_channels=16):
+    """Return an nn.Module mapping (B, hidden_channels, 6, 7) -> (B, 1) in (-1, 1)."""
+    # TODO: build a value head that collapses backbone features to a single bounded scalar per board.
+    # pass
+    conv=nn.Conv2d(in_channels=hidden_channels,out_channels=1,kernel_size=3,padding='same')
+    flattened=torch.nn.Flatten()
+    output=torch.nn.Linear(6*7,1)
+    act=nn.Tanh()
+
+    return nn.Sequential(conv,flattened,output,act)
 
 # Step 20 - build_policy_value_net (not yet solved)
 # TODO: implement
