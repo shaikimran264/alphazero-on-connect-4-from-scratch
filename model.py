@@ -632,7 +632,7 @@ def expand_node(node, priors):
     board=node['board']
     player=node['to_play']
 
-    valid_cols=valid_moves(board)
+    valid_cols=valid_moves(board)  # valid cols or actions
     for i in range(len(valid_cols)):
         new_board = drop_piece(board, valid_cols[i], player)
         child = make_mcts_node(priors[valid_cols[i]],parent=node)
