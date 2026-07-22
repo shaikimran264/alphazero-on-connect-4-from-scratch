@@ -115,11 +115,119 @@ def four_in_a_row_vertical(board):
     
     return 0
 
-# Step 8 - four_in_a_row_diagonal_down_right (not yet solved)
-# TODO: implement
+# Step 8 - four_in_a_row_diagonal_down_right
+def four_in_a_row_diagonal_down_right(board):
+    # TODO: scan every down-right diagonal of the 6x7 board for four matching non-zero pieces
+    # pass
+    # ro=-1
+    for i in range(len(board[0])):
+        # ro+=1
+        row=0
+        # col=i
+        coli=i
 
-# Step 9 - four_in_a_row_diagonal_up_right (not yet solved)
-# TODO: implement
+        count_1=0
+        count_2=0
+
+        index_count=0
+
+        while(row < len(board) and coli < len(board[0])):
+            if board[row][coli]==1:
+                count_1+=1
+                count_2=0
+            elif board[row][coli]==2:
+                count_2+=1
+                count_1=0
+            else:
+                count_1=0
+                count_2=0
+            
+            # index_count+=1
+
+            # if index_count==4:
+            if count_1==4:
+                    return 1
+            if count_2==4:
+                    return 2
+                
+                # index_count=0
+            
+            row+=1
+            coli+=1
+    
+    # Start from left column (except top-left)
+    for i in range(1,len(board)):
+        row=i
+        coli=0
+
+        count_1=0
+        count_2=0
+
+        index_count=0
+
+        while(row < len(board) and coli < len(board[0])):
+            if board[row][coli]==1:
+                count_1+=1
+                count_2=0
+            elif board[row][coli]==2:
+                count_2+=1
+                count_1=0
+            else:
+                count_1=0
+                count_2=0
+            
+            # index_count+=1
+
+            # if index_count==4:
+            if count_1==4:
+                return 1
+            if count_2==4:
+                return 2
+                
+                # index_count=0
+            
+            row+=1
+            coli+=1
+
+
+    
+    return 0
+
+# Step 9 - four_in_a_row_diagonal_up_right
+def four_in_a_row_diagonal_up_right(board):
+    # TODO: scan every up-right diagonal for four consecutive matching non-zero pieces
+    # pass
+    col=-1
+    for i in range(len(board)-1,-1,-1):
+        row=i
+        col+=1
+        coli=col
+
+        count_1=0
+        count_2=0
+
+        index_count=0
+
+        while(row >=0 & coli < len(board[i])):
+            if board[row][coli]==1:
+                count_1+=1
+            elif board[row][coli]==2:
+                count_2+=1
+            
+            index_count+=1
+
+            if index_count==4:
+                if count_1==4:
+                    return 1
+                if count_2==4:
+                    return 2
+                
+                index_count=0
+            
+            row-=1
+            coli+=1
+    
+    return 0
 
 # Step 10 - check_winner (not yet solved)
 # TODO: implement
