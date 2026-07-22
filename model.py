@@ -602,8 +602,27 @@ def select_leaf(root, c_puct):
     
     return node
 
-# Step 32 - evaluate_with_network (not yet solved)
-# TODO: implement
+# Step 32 - evaluate_with_network
+def evaluate_with_network(net, state, to_play):
+    # TODO: run net on encoded state and return (masked priors np.ndarray (7,), value float)
+    # pass
+    net=net.eval()
+    board=state
+    encoded_board = encode_board(state, to_play)
+
+    encoded_board = torch.tensor(encoded_board,dtype=torch.float32).unsqueeze(0) # batch of 1
+    with torch.no_grad():
+        logits,val=net(encoded_board)
+    
+    mask=action_mask(board)
+
+    log_probs = masked_log_softmax(logits,mask)
+
+    probs=torch.exp(log_probs)
+
+    priors=probs.squeeze(0).cpu().numpy()
+
+    return priors,val.item()
 
 # Step 33 - expand_node (not yet solved)
 # TODO: implement
