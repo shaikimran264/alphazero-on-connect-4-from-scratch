@@ -389,8 +389,19 @@ def init_conv_backbone(in_channels=2, hidden_channels=16):
     convo_2=torch.nn.Conv2d(in_channels=hidden_channels,out_channels=hidden_channels,kernel_size=3,padding='same')
     return nn.Sequential(convo,act1,convo_2,act1)
 
-# Step 18 - init_policy_head (not yet solved)
-# TODO: implement
+# Step 18 - init_policy_head
+import torch
+import torch.nn as nn
+
+def init_policy_head(hidden_channels=16, num_columns=7):
+    """Return an nn.Module mapping (B, hidden_channels, 6, 7) -> (B, num_columns) logits."""
+    # TODO: build a small policy head that projects backbone features to column logits
+    # pass
+    conv=nn.Conv2d(in_channels=hidden_channels,out_channels=1,kernel_size=3,padding='same')
+    flattened=torch.nn.Flatten()
+    output=torch.nn.Linear(6*7,num_columns)
+
+    return nn.Sequential(conv,flattened,output)
 
 # Step 19 - init_value_head (not yet solved)
 # TODO: implement
