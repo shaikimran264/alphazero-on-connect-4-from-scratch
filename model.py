@@ -624,8 +624,27 @@ def evaluate_with_network(net, state, to_play):
 
     return priors,val.item()
 
-# Step 33 - expand_node (not yet solved)
-# TODO: implement
+# Step 33 - expand_node
+def expand_node(node, priors):
+    # TODO: attach a child node for every legal move with the corresponding network prior
+    # pass
+    leaf=node
+    board=node['board']
+    player=node['to_play']
+
+    valid_cols=valid_moves(board)
+    for i in range(len(valid_cols)):
+        new_board = drop_piece(board, valid_cols[i], player)
+        child = make_mcts_node(priors[valid_cols[i]],parent=node)
+        child['board']=new_board
+
+        child['to_play']=other_player(player)
+
+        node['children'][valid_cols[i]]=child
+    
+    node['is_expanded']=True
+
+    return node
 
 # Step 34 - backup_value (not yet solved)
 # TODO: implement
