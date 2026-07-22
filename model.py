@@ -740,8 +740,16 @@ def visit_count_policy(root, temperature=1.0):
     
     return probs
 
-# Step 38 - mcts_choose_action (not yet solved)
-# TODO: implement
+# Step 38 - mcts_choose_action
+def mcts_choose_action(state, to_play, net, num_simulations, c_puct, temperature=1.0):
+    # TODO: Run MCTS at the given state and return (action, visit-count policy vector).
+    # pass
+    root  = run_mcts(state, to_play, net, num_simulations, c_puct)
+    probs = visit_count_policy(root, temperature=1.0)
+    tensors=torch.tensor(probs,dtype=torch.float32)
+    act = torch.multinomial(tensors,1)
+
+    return act.item(),np.array(probs)
 
 # Step 39 - record_self_play_step (not yet solved)
 # TODO: implement
