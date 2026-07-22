@@ -646,8 +646,19 @@ def expand_node(node, priors):
 
     return node
 
-# Step 34 - backup_value (not yet solved)
-# TODO: implement
+# Step 34 - backup_value
+def backup_value(leaf, value):
+    # TODO: walk from leaf up through parents, updating visits and value_sum with alternating signs
+    # pass
+    # node=leaf
+    
+    while(leaf):
+        parent=leaf['parent']
+        leaf['value_sum'] += value
+        leaf['visit_count']+=1
+        leaf['visits']=leaf['visit_count']
+        leaf=parent
+        value = value*(-1)
 
 # Step 35 - run_one_simulation (not yet solved)
 # TODO: implement
