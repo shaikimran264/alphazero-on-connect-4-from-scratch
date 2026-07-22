@@ -21,8 +21,10 @@ def column_top_row(board, column):
     """Return the lowest empty row in `column`, or -1 if the column is full."""
     # TODO: scan the column from the bottom up and return the first empty row index
     # pass
-    # if board[0][column]!=0:
-    #     return -1
+
+    #In Connect Four, a column is playable only if the top cell is empty.
+    if board[0][column]!=0:
+        return -1
         
     for i in range(len(board)-1,-1,-1):
         if(board[i][column]==0):
