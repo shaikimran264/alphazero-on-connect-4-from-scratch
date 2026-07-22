@@ -745,7 +745,7 @@ def mcts_choose_action(state, to_play, net, num_simulations, c_puct, temperature
     # TODO: Run MCTS at the given state and return (action, visit-count policy vector).
     # pass
     root  = run_mcts(state, to_play, net, num_simulations, c_puct)
-    probs = visit_count_policy(root, temperature=1.0)
+    probs = visit_count_policy(root, temperature=temperature)
     tensors=torch.tensor(probs,dtype=torch.float32)
     act = torch.multinomial(tensors,1)
 
