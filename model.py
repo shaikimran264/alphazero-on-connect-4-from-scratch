@@ -418,8 +418,28 @@ def init_value_head(hidden_channels=16):
 
     return nn.Sequential(conv,flattened,output,act)
 
-# Step 20 - build_policy_value_net (not yet solved)
-# TODO: implement
+# Step 20 - build_policy_value_net
+import torch
+import torch.nn as nn
+
+class network(nn.Module):
+    def __init__(self,in_channels,hidden_channels,num_columns):
+        super().__init__()
+        self.backbone=init_conv_backbone(in_channels=in_channels,hidden_channels=hidden_channels)
+        self.policy_head=init_policy_head(hidden_channels=hidden_channels,num_columns=num_columns)
+        self.value_head=init_value_head(hidden_channels=hidden_channels)
+    def forward(self,x):
+        out_1=self.backbone(x)
+        out_2=self.policy_head(out_1)
+        out_3=self.value_head(out_1)
+
+        return out_2,out_3
+def build_policy_value_net(in_channels=2, hidden_channels=16, num_columns=7):
+    """Compose backbone + policy head + value head into one nn.Module."""
+    # TODO: build an nn.Module with backbone, policy_head, value_head attributes
+    # pass
+
+    return network(in_channels,hidden_channels,num_columns)
 
 # Step 21 - policy_value_forward (not yet solved)
 # TODO: implement
