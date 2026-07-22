@@ -303,8 +303,19 @@ def board_is_full(board):
     
     return False
 
-# Step 12 - is_terminal (not yet solved)
-# TODO: implement
+# Step 12 - is_terminal
+def is_terminal(board):
+    # TODO: return (done, winner) using check_winner and board_is_full.
+    # pass
+    if board_is_full(board):
+        winner=check_winner(board)
+        return (True,winner)
+    
+    winner=check_winner(board)
+    if winner!=0:
+        return (True,winner)
+        
+    return (False,0)
 
 # Step 13 - other_player (not yet solved)
 # TODO: implement
