@@ -335,7 +335,7 @@ def step_env(board, column, player):
     # TODO: drop piece for player, then return (new_board, done, winner, next_player).
     # pass
     new_board=drop_piece(board,column,player)
-    done,winner=is_terminal(board)
+    done,winner=is_terminal(new_board)
     next_player=other_player(player)
 
     return (new_board,done,winner,next_player)
