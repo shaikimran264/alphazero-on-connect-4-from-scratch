@@ -514,9 +514,11 @@ def sample_action_from_policy(logits, mask, temperature=1.0):
     # pass
     temp_logits=logits/temperature
 
-    probs=masked_log_softmax(temp_logits, mask)
+    log_probs=masked_log_softmax(temp_logits, mask)
 
-    col = torch.argmax(probs,dim=-1)
+    probs=torch.exp(log_probs)
+
+    col = torch.multinomial(probs,1)
 
     return col.item()
 
