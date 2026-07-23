@@ -808,8 +808,22 @@ def assign_value_targets(history, winner):
     
     return new_history
 
-# Step 42 - generate_self_play_batch (not yet solved)
-# TODO: implement
+# Step 42 - generate_self_play_batch
+def generate_self_play_batch(net, num_games, num_simulations, c_puct, temperature=1.0):
+    # TODO: play num_games self-play games and return a flat list of labelled step dicts.
+    # pass
+    buffer=[]
+    for i in range(num_games):
+        history,winner = play_self_play_game(net, num_simulations, c_puct, temperature)
+        new_history = assign_value_targets(history, winner)
+        v=[]
+        for step in new_history:
+            v.append(step['value'])
+        
+        for h in range(len(history)):
+          current = {'board':history[h]['board'],'policy':history[h]['policy'],'to_play':history[h]['to_play'],'value':v[h]}
+          buffer.append(current)
+    return buffer
 
 # Step 43 - value_loss_mse (not yet solved)
 # TODO: implement
