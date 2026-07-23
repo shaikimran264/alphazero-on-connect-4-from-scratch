@@ -765,8 +765,24 @@ def record_self_play_step(history, board, policy, to_play):
 
     return history
 
-# Step 40 - play_self_play_game (not yet solved)
-# TODO: implement
+# Step 40 - play_self_play_game
+def play_self_play_game(net, num_simulations, c_puct, temperature=1.0):
+    # TODO: play one Connect-4 game with both sides driven by MCTS, recording every step
+    # pass
+    board = make_empty_board()
+    to_play=1
+    done=False
+    history=[]
+
+    while not done:
+       act,probs =  mcts_choose_action(state=board, to_play=to_play, net=net, num_simulations=num_simulations, c_puct=c_puct, temperature=temperature)
+    
+       record_self_play_step(history, board=board, policy=probs, to_play=to_play)
+       new_board,done,winner,next_player = step_env(board=board, column=act, player=to_play)
+       to_play = next_player
+       board=new_board
+
+    return history,winner
 
 # Step 41 - assign_value_targets (not yet solved)
 # TODO: implement
