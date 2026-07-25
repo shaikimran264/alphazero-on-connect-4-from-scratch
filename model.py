@@ -867,8 +867,17 @@ def l2_regularization_loss(net):
     
     return loss
 
-# Step 46 - combined_loss (not yet solved)
-# TODO: implement
+# Step 46 - combined_loss
+def combined_loss(predicted_log_probs, predicted_values, target_policy, target_values, net, policy_weight=1.0, value_weight=1.0, l2_weight=1e-4):
+    # TODO: combine policy CE, value MSE, and L2 reg into a single weighted training loss.
+    # pass
+    value_mse=value_loss_mse(predicted_values,target_values)
+    l2_reg=l2_regularization_loss(net)
+    policy_ce=policy_loss_cross_entropy(predicted_log_probs, target_policy)
+
+    combined_loss=value_weight*value_mse + l2_weight*l2_reg + policy_weight*policy_ce
+    parts={'policy':policy_ce,'value':value_mse,'l2':l2_reg}
+    return (combined_loss,parts)
 
 # Step 47 - encode_batch_states (not yet solved)
 # TODO: implement
