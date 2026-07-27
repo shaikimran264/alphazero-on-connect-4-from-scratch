@@ -1032,8 +1032,16 @@ def self_play_iteration(net, optimizer, num_games, num_simulations, c_puct, batc
     ans={'buffer_size':len(buffer),'losses':per_epoch_loss}
     return ans
 
-# Step 52 - train_loop (not yet solved)
-# TODO: implement
+# Step 52 - train_loop
+def train_loop(net, optimizer, num_iterations, num_games, num_simulations, c_puct, batch_size, num_epochs=1, temperature=1.0):
+    # TODO: run self_play_iteration num_iterations times and collect each returned dict into a list.
+    # pass
+    ans=[]
+    for itere in range(num_iterations):
+        res = self_play_iteration(net, optimizer, num_games, num_simulations, c_puct, batch_size, num_epochs, temperature)
+        ans.append(res)
+    
+    return ans
 
 # Step 53 - random_policy_action (not yet solved)
 # TODO: implement
