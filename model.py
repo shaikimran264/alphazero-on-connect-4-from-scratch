@@ -1043,8 +1043,17 @@ def train_loop(net, optimizer, num_iterations, num_games, num_simulations, c_puc
     
     return ans
 
-# Step 53 - random_policy_action (not yet solved)
-# TODO: implement
+# Step 53 - random_policy_action
+def random_policy_action(state, to_play, rng=None):
+    # TODO: pick a uniformly random legal column on the given board
+    # pass
+    valid_cols = valid_moves(state)
+    if(rng is None):
+        rng = np.random.default_rng()
+    
+    act = rng.choice(valid_cols)
+    
+    return int(act)
 
 # Step 54 - greedy_agent_action (not yet solved)
 # TODO: implement
