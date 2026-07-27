@@ -911,8 +911,80 @@ def iterate_minibatches(buffer, batch_size, seed=None):
     
     # return batch
 
-# Step 49 - training_step (not yet solved)
-# TODO: implement
+# Step 49 - training_step
+def training_step(net, optimizer, minibatch, policy_weight=1.0, value_weight=1.0, l2_weight=1e-4):
+    device = next(net.parameters()).device
+
+    board = []
+    to_play = []
+    for step in minibatch:
+        board.append(step['board'])
+        to_play.append(step['to_play'])
+
+    batch_size = len(minibatch)
+    num_cols = 7
+
+    policy_array = np.zeros((batch_size, num_cols), dtype=np.float32)
+    for i in range(batch_size):
+        step = minibatch[i]
+        for j in range(num_cols):
+            policy_array[i][j] = step['policy'][j]
+
+    target_policy = torch.tensor(policy_array, dtype=torch.float32, device=device)
+
+    value_array = np.zeros(batch_size, dtype=np.float32)
+    for i in range(batch_size):
+        step = minibatch[i]
+        value_array[i] = step['value']
+
+    target_values = torch.tensor(value_array, dtype=torch.float32, device=device)
+    target_values = target_values.unsqueeze(1)
+
+    encoded_board = encode_batch_states(board, to_play).to(device)
+
+    logits, predicted_values = net(encoded_board)
+
+    mask_list = []
+    for i in range(len(board)):
+        b = board[i]
+        m = action_mask(b)
+        m_tensor = torch.as_tensor(m, dtype=torch.bool)
+        mask_list.append(m_tensor)
+
+    masks = torch.stack(mask_list)
+    masks = masks.to(device)
+
+    # manual masked log-softmax (masked_log_softmax only supports a single 1-D mask,
+    # but here each board in the batch has its own mask)
+    masked_logits = logits.clone()
+    for i in range(batch_size):
+        for j in range(num_cols):
+            if not masks[i][j]:
+                masked_logits[i][j] = float('-inf')
+
+    predicted_log_probs = torch.log_softmax(masked_logits, dim=-1)
+
+    total_loss, parts = combined_loss(
+        predicted_log_probs=predicted_log_probs,
+        predicted_values=predicted_values,
+        target_policy=target_policy,
+        target_values=target_values,
+        net=net,
+        policy_weight=policy_weight,
+        value_weight=value_weight,
+        l2_weight=l2_weight,
+    )
+
+    optimizer.zero_grad()
+    total_loss.backward()
+    optimizer.step()
+
+    return {
+        'total': total_loss.item(),
+        'policy': parts['policy'].item(),
+        'value': parts['value'].item(),
+        'l2': parts['l2'].item(),
+    }
 
 # Step 50 - training_epoch (not yet solved)
 # TODO: implement
