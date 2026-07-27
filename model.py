@@ -1055,8 +1055,22 @@ def random_policy_action(state, to_play, rng=None):
     
     return int(act)
 
-# Step 54 - greedy_agent_action (not yet solved)
-# TODO: implement
+# Step 54 - greedy_agent_action
+def greedy_agent_action(net, state, to_play):
+    # TODO: run one forward pass and return the argmax legal column for to_play.
+    # pass
+    device = next(net.parameters()).device
+    encoded_board = board_to_torch_tensor(state, to_play).to(device)
+    
+    net=net.eval()
+
+    with torch.no_grad():
+      logits, predicted_values = net(encoded_board)
+
+    mask  = action_mask(state)
+    greedy_act = greedy_action_from_policy(logits,mask)
+
+    return int(greedy_act)
 
 # Step 55 - play_one_match (not yet solved)
 # TODO: implement
