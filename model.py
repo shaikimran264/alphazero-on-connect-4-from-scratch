@@ -1092,8 +1092,25 @@ def play_one_match(agent_one, agent_two, starting_player=1):
 
     return winner
 
-# Step 56 - match_win_rate (not yet solved)
-# TODO: implement
+# Step 56 - match_win_rate
+def match_win_rate(agent_one, agent_two, num_matches, alternate_starts=True):
+    # TODO: play num_matches games and tally wins, losses, draws for agent_one
+    # pass
+    player=1
+    ans={'wins':0,'losses':0,'draws':0}
+    for match in range(num_matches):
+        winner = play_one_match(agent_one, agent_two, starting_player=player)
+        if(winner==1):
+            ans['wins']+=1
+        elif(winner==2):
+            ans['losses']+=1
+        else:
+            ans['draws']+=1
+
+        if alternate_starts:
+            player=other_player(player)
+    
+    return ans
 
 # Step 57 - evaluate_against_random (not yet solved)
 # TODO: implement
